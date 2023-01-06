@@ -5,29 +5,38 @@
             v-on:click.prevent="addToCart"
         >
             Ajouter au panier
-        </button>
+
+        </button> 
+
     </div>
 </template>
 
 <script setup>
    
-    const { addProduct, cartCount } = useCart();
+    // const { addProduct, cartCount } = useCart();
     const props = defineProps(['productId']);
-    const emitter = require('tiny-emitter/instance');
-    const { inject } = require('vue');
-    const toast = inject('toast');
+    // const emitter = require('tiny-emitter/instance');
+    // const { inject } = require('vue');
+    // const toast = inject('toast');
 
     const addToCart = async () => {
+        
+        
         await axios.get('/sanctum/csrf-cookie')
         await axios.get('/api/user')
-            .then(async () => {
-                await addProduct(props.productId);
-                toast.success('Produit ajouté au panier!');
-                emitter.emit('refreshCartCount', cartCount);
+            .then(async (res) => {
+                let response = await axios.post('/api/products', {
+                productId: productId
+
+                })
+
+                console.log(response);
+                
+
+
+              
             })
-            .catch(() => {
-                toast.error('Connectez-vous pour ajouter un produit au panier');
-                return;
-            });
+            
+           .catch(err => console.log(err))
     }
 </script>

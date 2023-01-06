@@ -17,13 +17,19 @@ use App\Http\Controllers\Api\CartController;
 */
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/user', fn(Request $request) => $request->user());
+    Route::get('/user', function (Request $request) {
+        return $request->user();
 
-    Route::get('cart/count', [CartController::class, 'count'])
+        Route::get('cart/count', [CartController::class, 'count'])
         ->name('cart.count');
-    Route::put('cart/decrease/{rowId}', [CartController::class, 'decreaseQuantity'])
+        Route::put('cart/decrease/{rowId}', [CartController::class, 'decreaseQuantity'])
         ->name('api.cart.decrease');
     Route::put('cart/increase/{rowId}', [CartController::class, 'increaseQuantity'])
         ->name('api.cart.increase');
+
+    });
+
+   
+ 
     Route::apiResource('cart', CartController::class);
 });

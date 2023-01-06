@@ -21,25 +21,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('checkout', [CheckoutController::class, 'create'])
-    ->name('checkout.create');
-Route::post('paymentIntent', [CheckoutController::class, 'paymentIntent'])
-    ->name('checkout.paymentIntent');
-Route::resource('products', ProductController::class);
-Route::get('shoppingCart', [CartController::class, 'index'])
-    ->name('cart.index');
-
-Route::resource('orders', OrderController::class);
-
-Route::get('/clear', function () {
-    \Cart::session(auth()->user()->id)->clear();
-});
+Route::get('products', [ProductController::class, 'index'])
+->name('products.index');
 
 Route::get('/dashboard', function () {
     $orders = auth()->user()->orders;
     return view('dashboard', compact('orders'));
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/thankyou', fn() => 'Merci de votre commande!');
+
+
 
 require __DIR__.'/auth.php';

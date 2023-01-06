@@ -15,7 +15,7 @@ class Product extends Model
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class)
-            ->withPivot('price', 'quantity');
+            ->withPivot('total_quantity','total_price');
     }
 
     // public function price(): Attribute
