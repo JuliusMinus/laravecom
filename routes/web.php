@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,14 +21,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('checkout', [CheckoutController::class, 'create'])
+    ->name('checkout.create');
+Route::post('paymentIntent', [CheckoutController::class, 'paymentIntent'])
+    ->name('checkout.paymentIntent');
+Route::resource('products', ProductController::class);
+Route::get('shoppingCart', [CartController::class, 'index'])
+    ->name('cart.index');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::resource('orders', OrderController::class);
+
+Route::get('/clear', function () {
+    \Cart::session(auth()->user()->id)->clear();
 });
+
+Route::get('/dashboard', function () {
+    $orders = auth()->user()->orders;
+    return view('dashboard', compact('orders'));
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/thankyou', fn() => 'Merci de votre commande!');
 
 require __DIR__.'/auth.php';
