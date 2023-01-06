@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center justify-between py-4">
         <button
-            class="focus:outline-none text-white rounded-md cursor-pointer text-xs font-semibold px-3 py-2 bg-indigo-700"
+            class="bg-indigo-500 text-white p-2"
             v-on:click.prevent="addToCart"
         >
             Ajouter au panier
@@ -13,30 +13,18 @@
 
 <script setup>
    
-    // const { addProduct, cartCount } = useCart();
-    const props = defineProps(['productId']);
-    // const emitter = require('tiny-emitter/instance');
-    // const { inject } = require('vue');
-    // const toast = inject('toast');
+   const productId = defineProps(['productId']);
 
     const addToCart = async () => {
         
         
-        await axios.get('/sanctum/csrf-cookie')
-        await axios.get('/api/user')
-            .then(async (res) => {
-                let response = await axios.post('/api/products', {
-                productId: productId
-
-                })
-
-                console.log(response);
+     console.log('productId');
                 
 
 
               
-            })
             
-           .catch(err => console.log(err))
+            
+         
     }
 </script>

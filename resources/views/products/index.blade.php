@@ -35,7 +35,7 @@
                                 <p tabindex="0" class="focus:outline-none text-xs text-gray-600 mt-2">{{ $product->description }}</p>
 
 
-                           <button class="bg-indigo-500 text-white p-2">Ajouter au panier</button>
+                           
 
                                 
                                 <!-- {{-- <div class="flex mt-4">
