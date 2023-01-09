@@ -6,7 +6,7 @@ import AddToCart from './components/AddToCart.vue';
 import NavbarCart from './components/NavbarCart.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import Checkout from "./components/Checkout.vue";
-// import Toaster from "@meforma/vue-toaster";
+import Toaster from "@meforma/vue-toaster";
 
 
 
@@ -17,11 +17,12 @@ Alpine.start();
 
 const app = createApp();
 
+app.use(Toaster).provide('toast', app.config.globalProperties.$toast);
 
-app
-    .component('AddToCart', AddToCart)
-    .component('NavbarCart', NavbarCart)
-    .component('ShoppingCart', ShoppingCart)
-    .component('Checkout', Checkout)
+
+    app.component('AddToCart', AddToCart)
+    app.component('NavbarCart', NavbarCart)
+    app.component('ShoppingCart', ShoppingCart)
+    app.component('Checkout', Checkout)
 
 app.mount('#app');

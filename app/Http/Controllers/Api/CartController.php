@@ -34,11 +34,11 @@ class CartController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $product = Product::find($request->productId);
+        $product = Product::find($request->productId)->first();
         $count = (new CartRepository())->add($product);
 
         return response()->json([
-            'cartCount' => $count
+            'count' => $count
         ]);
     }
 

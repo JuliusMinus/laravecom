@@ -16,7 +16,14 @@ use App\Http\Controllers\Api\CartController;
 */
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/user', fn(Request $request) => $request->user());
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    
+    
+    
+    } );
+
+    Route::apiResource('products', CartController::class);
 
     Route::get('cart/count', [CartController::class, 'count'])
         ->name('cart.count');
