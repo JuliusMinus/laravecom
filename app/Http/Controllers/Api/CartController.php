@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Repositories\CartRepository;
 
 class CartController extends Controller
 {
@@ -13,9 +15,15 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $cartContent = (new CartRepository())->content();
+        $count = (new CartRepository())->count();
+
+        return response()->json([
+            'cartContent' => $cartContent,
+            'cartCount' => $count
+        ]);
     }
 
     /**
@@ -24,10 +32,14 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $product = Product::where("id", $request->productId)->first();
-        return $product
+        $product = Product::find($request->productId);
+        $count = (new CartRepository())->add($product);
+
+        return response()->json([
+            'cartCount' => $count
+        ]);
     }
 
     /**
@@ -41,16 +53,14 @@ class CartController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function decreaseQuantity(int $id)
     {
-        //
+        (new CartRepository())->decreaseQuantity($id);
+    }
+
+    public function increaseQuantity(int $id)
+    {
+        (new CartRepository())->increaseQuantity($id);
     }
 
     /**
@@ -59,8 +69,21 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        //
+        $count = (new CartRepository())->delete($id);
+
+        return response()->json([
+            'count' => $count
+        ]);
+    }
+
+    public function count(): JsonResponse
+    {
+        $count = (new CartRepository())->count();
+
+        return response()->json([
+            'count' => $count
+        ]);
     }
 }

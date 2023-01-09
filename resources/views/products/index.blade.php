@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Remove py-8 -->
             <div class="mx-auto container py-8">
-                <div class="grid grid-cols-4 grid-gap-4">
+                <div class="grid grid-cols-4 gap-4">
                     @foreach ($products as $product)
                     <!-- Card 1 -->
                     <div tabindex="0" class="focus:outline-none mx-2 w-72">
@@ -33,19 +33,14 @@
                                     <p tabindex="0" class="focus:outline-none text-xs text-gray-600 pl-5"></p>
                                 </div>
                                 <p tabindex="0" class="focus:outline-none text-xs text-gray-600 mt-2">{{ $product->description }}</p>
-
-
-                           
-
-                                
-                                <!-- {{-- <div class="flex mt-4">
+                                {{-- <div class="flex mt-4">
                                     <div>
                                         <p tabindex="0" class="focus:outline-none text-xs text-gray-600 px-2 bg-gray-200 py-1">12 months warranty</p>
                                     </div>
                                     <div class="pl-2">
                                         <p tabindex="0" class="focus:outline-none text-xs text-gray-600 px-2 bg-gray-200 py-1">Complete box</p>
                                     </div>
-                                </div> --}} -->
+                                </div> --}}
                                 <add-to-cart :product-id="{{ $product->id }}"></add-to-cart>
                             </div>
                         </div>
