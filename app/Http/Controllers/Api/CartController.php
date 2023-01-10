@@ -34,7 +34,7 @@ class CartController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $product = Product::find($request->productId)->first();
+        $product = Product::where('id', $request->productId)->first();
         $count = (new CartRepository())->add($product);
 
         return response()->json([
@@ -53,15 +53,7 @@ class CartController extends Controller
         //
     }
 
-    public function decreaseQuantity(int $id)
-    {
-        (new CartRepository())->decreaseQuantity($id);
-    }
-
-    public function increaseQuantity(int $id)
-    {
-        (new CartRepository())->increaseQuantity($id);
-    }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -71,11 +63,7 @@ class CartController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $count = (new CartRepository())->delete($id);
-
-        return response()->json([
-            'count' => $count
-        ]);
+       //
     }
 
     public function count(): JsonResponse

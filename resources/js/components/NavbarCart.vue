@@ -11,18 +11,28 @@
 
 <script setup>
     import { onMounted, ref } from "vue";
-    
-    const cartCount = ref(0);
+    import useProduct from '../composables/products';
+    import emitter from 'tiny-emitter';
     
 
-    // emitter.on('refreshCartCount', function (count) {
-    //     cartCount.value = count;
-    // });
+
+
+    const { getCount } = useProduct();
+    const cartCount = ref(0);
+
+    emitter('cartCountUpdated', (count) => cartCount.value = count);
+    
+
+   
+
+
+   
+
+   
 
     onMounted( async () => {
         await axios.get('/sanctum/csrf-cookie');
         let response = await axios.get('/api/cart/count');
-
-        cartCount.value = response.data.count;
+        cartCount.value = await getCount();
     })
 </script>

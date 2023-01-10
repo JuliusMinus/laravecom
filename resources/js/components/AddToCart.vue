@@ -11,26 +11,28 @@
 
 <script setup>
    
-import axios from "axios";
-import { inject } from "vue";
-    import useProduct from '../composables/products';
+import useProduct from '../composables/products';
+import emitter from 'tiny-emitter';
 
     const { add } = useProduct();
     const productId = defineProps(['productId']);
+ 
+  
     
-    // const emitter = require('tiny-emitter/instance');
-    // const { inject } = require('vue');
-    const toast = inject('toast');
+  
+    
+   
 
     const addToCart = async () => {
-        await axios.get('/sanctum/csrf-cookie');
+        await axios.get('/sanctum/csrf-cookie')
         await axios.get('/api/user')
             .then(async (res) => {
-                await add(productId);
-                })
-
-                .catch(err => console.log(err));
-
-        
+                let cartCount = await add(productId);
+                emitter('cartCountUpdated', cartCount);
+              
+            })
+            .catch(err => console.log(err));
     }
+
+    
 </script>
